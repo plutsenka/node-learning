@@ -2,9 +2,10 @@
   "name": "learning",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "npx prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/plutsenka/node-learning/issues"
   },
-  "homepage": "https://github.com/plutsenka/node-learning#readme"
+  "homepage": "https://github.com/plutsenka/node-learning#readme",
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
 }

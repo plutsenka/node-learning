@@ -1,5 +1,5 @@
 run-container:
-	docker-compose exec -it app sh
+	docker-compose exec -it server sh
 
 build:
 	docker-compose build
