@@ -36,4 +36,4 @@ COPY . .
 EXPOSE 4000
 
 # Run the application.
-CMD node app.js
+CMD node src/app.js
