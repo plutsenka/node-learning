@@ -1,36 +1,50 @@
 const axios = require('axios');
-const moment = require('moment/moment');
+const { format, add } = require('date-fns');
+const meteorFormatter = require('../utils/meteorFormatter');
 require('dotenv').config();
 
-const { API_BASE_URL } = process.env;
-const { API_KEY } = process.env;
-const START_DATE = moment().format('YYYY-MM-DD');
-const END_DATE = moment().add(7, 'days').format('YYYY-MM-DD');
-const API_SERVICE_URL = `${API_BASE_URL}?start_date=${START_DATE}&end_date=${END_DATE}&api_key=${API_KEY}`;
+const { API_BASE_URL, API_KEY } = process.env;
 
-async function getMeteorsData() {
-  let result = [];
+async function getMeteorsData(request) {
+  const startDate = request.startDate ?? new Date();
+  const endDate = request.endDate ?? add(startDate, {days: 7});
 
-  const response = await axios.get(API_SERVICE_URL);
-  const meteorsByDate = response.data.near_earth_objects;
+  let formattedMeteors = [];
+  let wereDangerous = false;
+
+  const meteorsData = await axios.get(API_BASE_URL, {
+    'params': {
+      'start_date': format(startDate, 'yyyy-MM-dd'),
+      'end_date': format(endDate, 'yyyy-MM-dd'),
+      'api_key': API_KEY,
+    },
+  });
+
+  const meteorsByDate = meteorsData.data.near_earth_objects;
 
   Object.keys(meteorsByDate).forEach((key) => {
     const meteors = meteorsByDate[key];
 
     meteors.forEach((meteor) => {
-      result.push({
-        id: meteor.id,
-        name: meteor.name,
-        estimated_diameter_min: meteor.estimated_diameter.meters.estimated_diameter_min,
-        estimated_diameter_max: meteor.estimated_diameter.meters.estimated_diameter_max,
-        is_potentially_hazardous_asteroid: meteor.is_potentially_hazardous_asteroid,
-        close_approach_date_full: meteor.close_approach_data[0].close_approach_date_full,
-        relative_velocity: meteor.close_approach_data[0].relative_velocity.kilometers_per_second,
-      });
+      formattedMeteors.push(meteorFormatter.format(meteor));
+
+      if (meteor.is_potentially_hazardous_asteroid && !wereDangerous) {
+        wereDangerous = true;
+      }
     });
   });
 
-  return { ...result };
+  let response = { 'count': formattedMeteors.length };
+
+  if (!request.countOnly) {
+    response.meteors = formattedMeteors;
+  }
+
+  if (request.wereDangerous) {
+    response.wereDagerous = wereDangerous;
+  }
+
+  return response;
 }
 
 module.exports = {
