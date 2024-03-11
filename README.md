@@ -1,6 +1,6 @@
 # node-learning
 
-Simple example of proxy server 
+Simple example of proxy server
 
 ## Project setup
 

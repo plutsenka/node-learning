@@ -7,16 +7,16 @@ const { API_BASE_URL, API_KEY } = process.env;
 
 async function getMeteorsData(request) {
   const startDate = request.startDate ?? new Date();
-  const endDate = request.endDate ?? add(startDate, {days: 7});
+  const endDate = request.endDate ?? add(startDate, { days: 7 });
 
   let formattedMeteors = [];
   let wereDangerous = false;
 
   const meteorsData = await axios.get(API_BASE_URL, {
-    'params': {
-      'start_date': format(startDate, 'yyyy-MM-dd'),
-      'end_date': format(endDate, 'yyyy-MM-dd'),
-      'api_key': API_KEY,
+    params: {
+      start_date: format(startDate, 'yyyy-MM-dd'),
+      end_date: format(endDate, 'yyyy-MM-dd'),
+      api_key: API_KEY,
     },
   });
 
@@ -34,7 +34,7 @@ async function getMeteorsData(request) {
     });
   });
 
-  let response = { 'count': formattedMeteors.length };
+  let response = { count: formattedMeteors.length };
 
   if (!request.countOnly) {
     response.meteors = formattedMeteors;
