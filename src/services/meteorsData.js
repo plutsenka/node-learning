@@ -2,16 +2,22 @@ const axios = require('axios');
 const moment = require('moment/moment');
 require('dotenv').config();
 
-const { API_BASE_URL } = process.env;
+const { API_BASE_URL, METEORS_ENDPOINT } = process.env;
 const { API_KEY } = process.env;
 const START_DATE = moment().format('YYYY-MM-DD');
 const END_DATE = moment().add(7, 'days').format('YYYY-MM-DD');
-const API_SERVICE_URL = `${API_BASE_URL}?start_date=${START_DATE}&end_date=${END_DATE}&api_key=${API_KEY}`;
+const API_SERVICE_URL = API_BASE_URL + METEORS_ENDPOINT;
 
 async function getMeteorsData() {
   let result = [];
 
-  const response = await axios.get(API_SERVICE_URL);
+  const response = await axios.get(API_SERVICE_URL, {
+    params: {
+      start_date: START_DATE,
+      end_date: END_DATE,
+      api_key: API_KEY,
+    },
+  });
   const meteorsByDate = response.data.near_earth_objects;
 
   Object.keys(meteorsByDate).forEach((key) => {
