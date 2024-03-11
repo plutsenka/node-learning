@@ -1,4 +1,4 @@
-function format(meteor) {
+function mapMeteor(meteor) {
   return {
     id: meteor.id,
     name: meteor.name,
@@ -11,5 +11,5 @@ function format(meteor) {
 }
 
 module.exports = {
-  format,
+  mapMeteor: mapMeteor,
 };

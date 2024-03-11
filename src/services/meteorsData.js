@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { format, add } = require('date-fns');
-const meteorFormatter = require('../utils/meteorFormatter');
+const meteorMapper = require('../utils/meteorMapper');
 require('dotenv').config();
 
 const { API_BASE_URL, API_KEY } = process.env;
@@ -26,7 +26,7 @@ async function getMeteorsData(request) {
     const meteors = meteorsByDate[key];
 
     meteors.forEach((meteor) => {
-      formattedMeteors.push(meteorFormatter.format(meteor));
+      formattedMeteors.push(meteorMapper.mapMeteor(meteor));
 
       if (meteor.is_potentially_hazardous_asteroid && !wereDangerous) {
         wereDangerous = true;
