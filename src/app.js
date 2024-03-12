@@ -1,17 +1,17 @@
 const express = require('express');
 const meteorsDataRouter = require('./routes/meteorsData');
 const userDataRouter = require('./routes/userData');
-require('dotenv').config();
+const config = require('./config/config');
 
 const app = express();
 
-const { PORT } = process.env;
+const { port } = config.server;
 
 app.use(express.json());
 
 app.use('/meteors', meteorsDataRouter);
 app.use('/user', userDataRouter);
 
-app.listen(PORT, () => {
-  console.log(`Starting Proxy at port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Starting Proxy at port ${port}`);
 });

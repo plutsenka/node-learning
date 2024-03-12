@@ -1,25 +1,26 @@
 const axios = require('axios');
 const { format, subDays } = require('date-fns');
-require('dotenv').config();
+const config = require('../config/config');
 
-const { API_BASE_URL, MARS_PHOTO_ENDPOINT, MANIFESTS_ENDPOINT } = process.env;
-const { API_KEY } = process.env;
+const { baseUrl, marsPhotoEndpoint, manifestEndpoint, apiKey } = config.nasaApi;
+const DATE_FORMAT = 'yyyy-MM-dd';
+const ONE_DAY_OFFSET = 1;
 
 async function getRoverPhoto() {
-  const manifestResponse = await axios.get(API_BASE_URL + MANIFESTS_ENDPOINT, {
+  const manifestResponse = await axios.get(baseUrl + manifestEndpoint, {
     params: {
-      api_key: API_KEY,
+      api_key: apiKey,
     },
   });
 
   const maxDate = new Date(manifestResponse.data.photo_manifest.max_date);
   // for some reason maxDate doesn't work as expected, let's use previous day
-  const earthDate = format(subDays(maxDate, 1), 'yyyy-MM-dd');
+  const earthDate = format(subDays(maxDate, ONE_DAY_OFFSET), DATE_FORMAT);
 
-  const photoResponse = await axios.get(API_BASE_URL + MARS_PHOTO_ENDPOINT, {
+  const photoResponse = await axios.get(baseUrl + marsPhotoEndpoint, {
     params: {
       earth_date: earthDate,
-      api_key: API_KEY,
+      api_key: apiKey,
     },
   });
 
