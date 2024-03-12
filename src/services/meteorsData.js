@@ -1,20 +1,20 @@
 const axios = require('axios');
 const { format, add } = require('date-fns');
 const meteorMapper = require('../utils/meteorMapper');
-require('dotenv').config();
+const config = require('../config/config');
 
-const { API_BASE_URL, API_KEY } = process.env;
+const { baseUrl, meteorsDataEndpoint, apiKey } = config.nasaApi;
 const DEFAULT_INTERVAL = 7;
 
 async function getMeteorsData(requestedStartDate, requestedEndDate, countOnly, wereDangerous) {
   const startDate = requestedStartDate ?? new Date();
   const endDate = requestedEndDate ?? add(startDate, { days: DEFAULT_INTERVAL });
 
-  const meteorsData = await axios.get(API_BASE_URL, {
+  const meteorsData = await axios.get(baseUrl + meteorsDataEndpoint, {
     params: {
       start_date: format(startDate, 'yyyy-MM-dd'),
       end_date: format(endDate, 'yyyy-MM-dd'),
-      api_key: API_KEY,
+      api_key: apiKey,
     },
   });
 
