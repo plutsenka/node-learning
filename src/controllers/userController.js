@@ -12,7 +12,6 @@ const getRoverPhoto = async (req, res, next) => {
 
     res.send(`<img src="${photoUrl}">`);
   } catch (err) {
-    console.error('Error while processing user data ', err.message);
     next(err);
   }
 };

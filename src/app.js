@@ -3,6 +3,7 @@ const meteorsDataRouter = require('./routes/meteorsRoute');
 const userDataRouter = require('./routes/userRoute');
 const config = require('./config/config');
 const errorHandler = require('./middlewares/errorHandler');
+const pageNotFoundHandler = require('./middlewares/pageNotFoundHandler');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/meteors', meteorsDataRouter);
 app.use('/user', userDataRouter);
+app.use('*', pageNotFoundHandler);
 
 app.use(errorHandler);
 

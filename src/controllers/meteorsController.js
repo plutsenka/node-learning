@@ -7,7 +7,6 @@ const getMeteors = async (req, res, next) => {
   try {
     res.json(await meteorsService.getMeteorsData(startDate, endDate, countOnly, wereDangerous));
   } catch (err) {
-    console.error('Error while getting meteors data ', err.message);
     next(err);
   }
 };
