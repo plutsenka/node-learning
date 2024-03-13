@@ -1,10 +1,8 @@
-const express = require('express');
-const router = express.Router();
 const userService = require('../services/userData');
 const roverPhotoService = require('../services/roverPhotos');
 const UserRequestDto = require('../dto/userRequestDto');
 
-router.post('/', async function (req, res, next) {
+const getRoverPhoto = async (req, res, next) => {
   const userData = new UserRequestDto(req.body);
 
   try {
@@ -17,6 +15,8 @@ router.post('/', async function (req, res, next) {
     console.error('Error while processing user data ', err.message);
     next(err);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getRoverPhoto,
+};
