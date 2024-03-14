@@ -10,6 +10,7 @@ const config = {
   },
   server: {
     port: process.env.PORT || 4000,
+    sentryDsn: process.env.SENTRY_DSN,
   },
 };
 
