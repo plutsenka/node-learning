@@ -7,8 +7,8 @@ const { baseUrl, meteorsDataEndpoint, apiKey } = config.nasaApi;
 const DEFAULT_INTERVAL = 7;
 
 async function getMeteorsData(requestedStartDate, requestedEndDate, countOnly, wereDangerous) {
-  const startDate = requestedStartDate ?? new Date();
-  const endDate = requestedEndDate ?? add(startDate, { days: DEFAULT_INTERVAL });
+  const startDate = requestedStartDate ? new Date(requestedStartDate) : new Date();
+  const endDate = requestedEndDate ? new Date(requestedEndDate) : add(startDate, { days: DEFAULT_INTERVAL });
 
   const meteorsData = await axios.get(baseUrl + meteorsDataEndpoint, {
     params: {
@@ -22,10 +22,10 @@ async function getMeteorsData(requestedStartDate, requestedEndDate, countOnly, w
 
   // eslint-disable-next-line
   const formattedMeteors = Object.entries(meteorsByDate).reduce((acc, [key, meteors]) => {
-    return [...acc, ...meteors.map(meteor => meteorMapper.mapMeteor(meteor))];
+    return [...acc, ...meteors.map((meteor) => meteorMapper.mapMeteor(meteor))];
   }, []);
 
-  const hasDangerous = formattedMeteors.some(meteor => meteor.is_potentially_hazardous_asteroid);
+  const hasDangerous = formattedMeteors.some((meteor) => meteor.is_potentially_hazardous_asteroid);
 
   let response = { count: formattedMeteors.length };
 
