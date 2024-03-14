@@ -6,7 +6,7 @@ const requestValidator = function (schema) {
     const dataSource = method === 'GET' ? 'query' : 'body';
 
     try {
-      req[dataSource] = await schema.validateAsync(req[dataSource]);
+      await schema.validateAsync(req[dataSource]);
 
       next();
     } catch (err) {
