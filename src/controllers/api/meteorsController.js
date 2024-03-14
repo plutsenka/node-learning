@@ -1,5 +1,5 @@
-const meteorsService = require('../services/meteorsData');
-const MeteorsRequestDto = require('../dto/meteorRequestDto');
+const meteorsService = require('../../services/meteorsData');
+const MeteorsRequestDto = require('../../dto/meteorRequestDto');
 
 const getMeteors = async (req, res, next) => {
   const { startDate, endDate, countOnly, wereDangerous } = new MeteorsRequestDto(req.query);

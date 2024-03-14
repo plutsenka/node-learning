@@ -1,6 +1,6 @@
-const userService = require('../services/userData');
-const roverPhotoService = require('../services/roverPhotos');
-const UserRequestDto = require('../dto/userRequestDto');
+const userService = require('../../services/userData');
+const roverPhotoService = require('../../services/roverPhotos');
+const UserRequestDto = require('../../dto/userRequestDto');
 
 const getRoverPhoto = async (req, res, next) => {
   const userData = new UserRequestDto(req.body);
@@ -10,7 +10,7 @@ const getRoverPhoto = async (req, res, next) => {
     const userInfoProceeded = await userService.processUserData(userData); // TODO: temp solution
     const photoUrl = await roverPhotoService.getRoverPhoto();
 
-    res.send(`<img src="${photoUrl}">`);
+    res.render('user.html', { photoUrl: photoUrl, name: userData.userName });
   } catch (err) {
     next(err);
   }

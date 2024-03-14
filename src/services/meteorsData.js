@@ -34,7 +34,7 @@ async function getMeteorsData(requestedStartDate, requestedEndDate, countOnly, w
   }
 
   if (wereDangerous) {
-    response.wereDagerous = hasDangerous;
+    response.wereDangerous = hasDangerous;
   }
 
   return response;

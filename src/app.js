@@ -1,18 +1,28 @@
 const express = require('express');
-const meteorsDataRouter = require('./routes/meteorsRoute');
-const userDataRouter = require('./routes/userRoute');
+const path = require('node:path');
+const apiRouter = require('./routes/apiRouter');
+const webRouter = require('./routes/webRouter');
 const config = require('./config/config');
 const errorHandler = require('./middlewares/errorHandler');
 const pageNotFoundHandler = require('./middlewares/pageNotFoundHandler');
+const nunjucks = require('nunjucks');
 
 const app = express();
+
+nunjucks.configure(path.resolve(__dirname, './views'), {
+  autoescape: true,
+  express: app,
+  noCache: true,
+});
+
+app.set('view engine', 'html');
 
 const { port } = config.server;
 
 app.use(express.json());
 
-app.use('/meteors', meteorsDataRouter);
-app.use('/user', userDataRouter);
+app.use('/', webRouter);
+app.use('/api', apiRouter);
 app.use('*', pageNotFoundHandler);
 
 app.use(errorHandler);
