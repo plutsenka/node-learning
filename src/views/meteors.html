@@ -1,16 +1,26 @@
-{% extends 'base.html' %} {% set title = 'Meteors' %} {% block content %}
+{% extends 'base.html' %}
+{% set title = 'Meteors' %}
+{% block content %}
 <h1>Hello!</h1>
-{% if wereDangerous is defined %} {% if wereDangerous %}
-<h2>It was dangerous!</h2>
-{% else %}
-<h2>It was not dangerous</h2>
-{% endif %} {% endif %} {% if count %}
-<p>Asteroids count: {{ count }}</p>
-{% if meteors|length > 0 %}
-<p>Asteroids:</p>
-<ul>
-  {% for meteor in meteors %}
-  <li>{{ meteor.name|e }} {% if meteor.is_potentially_hazardous_asteroid %} - dangerous guy! {% endif %}</li>
-  {% endfor %}
-</ul>
-{% endif %} {% endif %} {% endblock %}
+
+{% if wereDangerous is defined %}
+    {% if wereDangerous %}
+    <h2>It was dangerous!</h2>
+    {% else %}
+    <h2>It was not dangerous</h2>
+    {% endif %}
+{% endif %}
+
+{% if count %}
+    <p>Asteroids count: {{ count }}</p>
+    {% if meteors|length > 0 %}
+    <p>Asteroids:</p>
+    <ul>
+    {% for meteor in meteors %}
+        <li>{{ meteor.name|e }} {% if meteor.is_potentially_hazardous_asteroid %} - dangerous guy! {% endif %}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
